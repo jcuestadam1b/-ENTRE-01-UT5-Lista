@@ -7,12 +7,12 @@
  * y dos  métodos estáticos para trabajar con
  * arrays de dos dimensiones
  *
- * @author -
+ * @Javier Cuesta -
  */
 
 
 import java.util.Random;
-
+import java.util.Arrays;
 public class ListaNumeros {
     public static final int DIMENSION = 10;
     public static final int ANCHO_FORMATO = 6;
@@ -20,8 +20,8 @@ public class ListaNumeros {
 
     private static final Random generador = new Random();
     //TODO
-    
-    
+    int pos;
+    int[] listaNumeros;
 
     /**
      * Constructor de la clase ListaNumeros
@@ -30,9 +30,9 @@ public class ListaNumeros {
      *
      * @param n el tamaño máximo de la lista
      */
-    public ListaNumeros() {
-        //TODO
-        
+    public ListaNumeros(int n) {
+        pos=0;
+        listaNumeros = new int[n];
     }
 
     /**
@@ -42,36 +42,59 @@ public class ListaNumeros {
      * @param numero el valor que se añade.  
      * @return true si se ha podido añadir, false en otro caso
      */
-    public void addElemento() {
-        //TODO
+    public boolean addElemento(int numero) {
+        if(pos<listaNumeros.length){
+            listaNumeros[pos]= numero;
+        }
+        else {
+            System.out.println("error cadena llena ");
+        }
         
+        pos = pos + 1;
         
-
+        return (listaNumeros[pos-1])==numero;
     }
 
     /**
      * @return true si la lista está completa, false en otro caso
      * Hacer sin if
      */
-    public void estaCompleta() {
-        //TODO
-
+    public boolean estaCompleta() {
+        int contador = 0;
+        int contador1 = 0;
+        while(contador<listaNumeros.length){
+            if(listaNumeros[contador]!=0){
+                contador1++;
+            }
+            contador++;
+        }
+        
+        return contador1==listaNumeros.length;
     }
 
     /**
      * @return true si la lista está vacía, false en otro caso.
      * Hacer sin if
      */
-    public void estaVacia() {
-       //TODO
+    public boolean estaVacia() {
+       int contador = 0;
+       int contador1 = 0;
+        while(contador<listaNumeros.length){
+            if(listaNumeros[contador]==0){
+                contador1++;
+            }
+            contador++;
+        }
+        
+        return contador1==listaNumeros.length;
 
     }
 
     /**
      * @return el nº de elementos realmente guardados en la lista
      */
-    public void getTotalNumeros() {
-        //TODO
+    public int getTotalNumeros() {
+        return pos;
 
     }
 
@@ -79,7 +102,10 @@ public class ListaNumeros {
      * Vacía la lista
      */
     public void vaciarLista() {
-       //TODO
+        int contador=0;
+        while(contador<listaNumeros.length){
+            listaNumeros[contador]=0;
+        }
     }
 
     /**
@@ -90,10 +116,12 @@ public class ListaNumeros {
      */
     public String toString() {
        //TODO
+       String lista="";
+       lista = ("--------------------------------------\n"+Arrays.toString(listaNumeros)+"\n--------------------------------------");
        
        
+       return lista;
        
-       return "";
     }
 
      
@@ -120,10 +148,26 @@ public class ListaNumeros {
      * No se puede usar ningún otro array auxiliar ni hay que ordenar previamente
      * la lista
      */
-    public void segundoMaximo() {       
+    public int segundoMaximo() {       
        //TODO
-
-        
+       int primer_maximo=-999;
+       int segundo_maximo=-999;
+       int contador=0;
+       int contador1=0;
+       while(contador<listaNumeros.length){
+           if(primer_maximo<listaNumeros[contador]){
+                primer_maximo=listaNumeros[contador];
+            }
+           contador++; 
+        }
+       
+       while(contador1<listaNumeros.length){
+           if(primer_maximo!=listaNumeros[contador1]&&segundo_maximo<listaNumeros[contador1]){
+                segundo_maximo=listaNumeros[contador1];
+            }
+           contador1++; 
+        } 
+       return segundo_maximo; 
     }
 
     /**
@@ -143,11 +187,66 @@ public class ListaNumeros {
      * @return true si se han colocado los segundos máximos
      *          false si no se han colocado los segundos máximos porque no había ninguno
      */
-    public void segundosMaximosAlPrincipio() {
+    public int[] segundosMaximosAlPrincipio() {
         //TODO
+       int primer_maximo=-999;
+       int segundo_maximo=-999;
+       int contador=0;
+       int contador1=0;
+       int contador2=0;
+       int contador3=0;
+       int contadorSegundos=0;
+       int guardadorNumSegundos=0;
+       int[] segundosPrincipio = new int[listaNumeros.length];
+       String lista = "";
+       while(contador<listaNumeros.length){
+           if(primer_maximo<listaNumeros[contador]){
+                primer_maximo=listaNumeros[contador];
+            }
+           contador++; 
+        }
+       
+       while(contador1<listaNumeros.length){
+           if(primer_maximo!=listaNumeros[contador1]&&segundo_maximo<listaNumeros[contador1]){
+                segundo_maximo=listaNumeros[contador1];
+                contadorSegundos++;
+            }
+           contador1++; 
+        } 
         
+       guardadorNumSegundos = contadorSegundos-1;
         
+       while(contadorSegundos!=0){
+           segundosPrincipio[contador2] = segundo_maximo;
+           contador2++;
+           contadorSegundos = contadorSegundos-1;
+       }
+       
+       
+       
+       while(contador3<=listaNumeros.length){
+           if(listaNumeros[contador3]!=segundo_maximo){
+               guardadorNumSegundos++;
+               
+               if(contador3!=3){
+                    contador3++;
+                }
+                else if(contador3>=3){
+                    contador3=3;
+                }
+               
+               segundosPrincipio[contador3]=listaNumeros[guardadorNumSegundos];
+               
+               
+           }
+           else{
+                contador3++;
+           }
 
+       }
+       
+       
+       return segundosPrincipio;
     }
 
     /**
